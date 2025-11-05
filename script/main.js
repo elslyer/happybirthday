@@ -270,3 +270,86 @@ const animationTimeline = () => {
         tl.restart();
     });
 }
+// === 1. Tombol Play / Pause Musik ===
+const music = document.querySelector('.song');
+const toggleMusic = document.getElementById('toggleMusic');
+let isPlaying = true;
+
+toggleMusic.addEventListener('click', () => {
+  if (isPlaying) {
+    music.pause();
+    toggleMusic.textContent = "🔇 Play";
+  } else {
+    music.play();
+    toggleMusic.textContent = "🔈 Pause";
+  }
+  isPlaying = !isPlaying;
+});
+
+// === 2. Efek hati melayang ===
+const canvas = document.getElementById('loveCanvas');
+const ctx = canvas.getContext('2d');
+let hearts = [];
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+document.getElementById('loveBtn').addEventListener('click', (e) => {
+  for (let i = 0; i < 10; i++) {
+    hearts.push({
+      x: e.clientX,
+      y: e.clientY,
+      size: Math.random() * 10 + 10,
+      speedY: Math.random() * 2 + 1,
+      alpha: 1,
+    });
+  }
+});
+
+function drawHearts() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  hearts.forEach((h, i) => {
+    ctx.fillStyle = `rgba(255,0,100,${h.alpha})`;
+    ctx.beginPath();
+    ctx.moveTo(h.x, h.y);
+    ctx.bezierCurveTo(h.x - h.size, h.y - h.size, h.x - h.size, h.y + h.size, h.x, h.y + h.size * 1.5);
+    ctx.bezierCurveTo(h.x + h.size, h.y + h.size, h.x + h.size, h.y - h.size, h.x, h.y);
+    ctx.fill();
+    h.y -= h.speedY;
+    h.alpha -= 0.01;
+    if (h.alpha <= 0) hearts.splice(i, 1);
+  });
+  requestAnimationFrame(drawHearts);
+}
+drawHearts();
+
+// === 3. Tombol Kejutan ===
+document.getElementById('surpriseBtn').addEventListener('click', () => {
+  Swal.fire({
+    title: "SELAMAT ULANG TAHUN SAYANG ❤️",
+    text: "Semoga cinta dan bahagia selalu melingkupimu 💞",
+    imageUrl: "./img/heart.gif",
+    imageWidth: 200,
+    imageHeight: 200,
+    background: "#fff0f6",
+    color: "#ff3366",
+    confirmButtonColor: "#ff3366",
+    confirmButtonText: "Awww makasih 🥰",
+  });
+});
+
+// === 4. Efek confetti saat selesai ===
+const replay = document.getElementById('replay');
+replay.addEventListener('click', () => {
+  Swal.fire({
+    title: "🎉 YEAY!",
+    text: "Animasi dimulai ulang dengan cinta ❤️",
+    confirmButtonText: "Lanjutkan",
+  }).then(() => {
+    location.reload();
+  });
+});
