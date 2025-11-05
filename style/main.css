@@ -290,3 +290,33 @@ body {
     font-weight: lighter;
   }
 }
+.interact {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 999;
+}
+
+.interact button {
+  background: rgba(255, 182, 193, 0.8);
+  border: none;
+  border-radius: 20px;
+  padding: 8px 14px;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.interact button:hover {
+  background: #ff9ec7;
+  transform: scale(1.1);
+}
+
+#loveCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
